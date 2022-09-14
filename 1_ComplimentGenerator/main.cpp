@@ -2,6 +2,14 @@
 #include "vector"
 
 /**
+ * C++ Assigment 1: Complement generator
+ *
+ * This code generates a complement using random number from a user defined seed
+ *
+ * @author Patrick McGuire (Patrick-McGuire)
+ */
+
+/**
  * Struct to allow passing sets of random numbers around, and allow for hardcoding for debug
  */
 struct RandomNums {
@@ -109,7 +117,7 @@ void runTests() {
     // Print result of test
     std::cout << "Max: " << maxM << ", Min: " << minN << std::endl;
 
-    // Run logic tests
+    // Run logicsol tests
     std::cout << "Running tests defined in run tests function" << std::endl;
 
     // Testing set of words individually
