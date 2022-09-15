@@ -1,6 +1,3 @@
-#include <iostream>
-#include "vector"
-
 /**
  * C++ Assigment 1: Complement generator
  *
@@ -8,6 +5,9 @@
  *
  * @author Patrick McGuire (Patrick-McGuire)
  */
+
+#include <iostream>
+#include "vector"
 
 /**
  * Struct to allow passing sets of random numbers around, and allow for hardcoding for debug
@@ -20,9 +20,9 @@ struct RandomNums {
 
 // Constants
 // Possible variable outputs
-const char *firstAdjectives[] = {"POWERFUL", "SPARKLING", "MAJESTIC"};
-const char *secondAdjectives[] = {"BRILLIANT", "RESILIENT"};
-const char *nouns[] = {"PIRATE", "MASTERMIND", "CREATION"};
+const char *FIRST_ADJECTIVES[] = {"POWERFUL", "SPARKLING", "MAJESTIC"};     // Would be better to have these in a h file, but this is small enough that I don't care
+const char *SECOND_ADJECTIVES[] = {"BRILLIANT", "RESILIENT"};
+const char *NOUNS[] = {"PIRATE", "MASTERMIND", "CREATION"};
 
 /**
  * Create 3 random numbers based on a seed
@@ -79,9 +79,9 @@ void generateMessage(RandomNums nums, bool debug = false) {
      *
      * I did this just for fun, it's not necessarily something I would do in real code, but it's a neat exercise
      */
-    const char *a1 = firstAdjectives[(nums.num1 >= 34 && nums.num1 <= 66) + 2 * (nums.num1 > 66)];        // hehe fancy
-    const char *a2 = secondAdjectives[nums.num1 > nums.num3 && nums.num3 < 120];      // de morgan's law
-    const char *n = nouns[(nums.num1 <= nums.num2) + (nums.num1 % 4 != 0 && nums.num1 <= nums.num2)];
+    const char *a1 = FIRST_ADJECTIVES[(nums.num1 >= 34 && nums.num1 <= 66) + 2 * (nums.num1 > 66)];        // hehe fancy
+    const char *a2 = SECOND_ADJECTIVES[nums.num1 > nums.num3 && nums.num3 < 120];      // de morgan's law
+    const char *n = NOUNS[(nums.num1 <= nums.num2) + (nums.num1 % 4 != 0 && nums.num1 <= nums.num2)];
     // Print
     if (debug) {
         std::cout << '(' << int(nums.num1) << ", " << int(nums.num2) << ", " << int(nums.num3) << "): ";
@@ -158,3 +158,4 @@ int main() {
     runTests();
     return 0;
 }
+
