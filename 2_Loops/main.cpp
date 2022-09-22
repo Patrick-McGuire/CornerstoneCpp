@@ -63,9 +63,6 @@ RpsOption getInput() {
 }
 
 int main() {
-
-
-
     // Seed the random number generator
     srand(time(nullptr));
     // Keep track of if the game has had a winner
@@ -81,6 +78,7 @@ int main() {
         std::cout << "You chose " << rpsOptionStr[playerSelection] << " and the computer chose " << rpsOptionStr[computerSelection] << std::endl;
         // Compute and print the winner
         gameActive = !computeWinner(computerSelection, playerSelection);
+
 
         // Ask the user to play again
         if(!gameActive) {
