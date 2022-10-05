@@ -14,6 +14,8 @@ enum RpsOption : int {
  */
 const char *rpsOptionStr[] = {"rock", "paper", "scissors"};
 
+RpsOption inputMapping[256];
+
 /**
  * Computes the winner for a given set of moves, and print to the screen
  * @param comp computer's move
@@ -48,12 +50,8 @@ RpsOption getInput() {
 
         // Check if input is valid and return
         if(userInput.length() == 1 && (userInput[0] == 'r' || userInput[0] == 's' || userInput[0] == 'p')) {
-            if(userInput[0] == 'r') {
-                return ROCK;
-            } else if(userInput[0] == 's') {
-                return SCISSORS;
-            } else if(userInput[0] == 'p') {
-                return PAPER;
+            if(userInput[0] == 'r' || userInput[0] == 's' || userInput[0] == 'p') {
+                return inputMapping[userInput[0]];
             }
         }
 
@@ -63,6 +61,11 @@ RpsOption getInput() {
 }
 
 int main() {
+    // Setup the input map. This is a casting trick that wastes a bit of memory but makes the code clean
+    inputMapping['r'] = ROCK;
+    inputMapping['p'] = PAPER;
+    inputMapping['s'] = SCISSORS;
+
     // Seed the random number generator
     srand(time(nullptr));
     // Keep track of if the game has had a winner
