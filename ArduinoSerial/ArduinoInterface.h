@@ -2,6 +2,53 @@
 #define ARDUINOSERIAL_ARDUINOINTERFACE_H
 
 #include "string"
+#include <string>
+#include <iostream>
+#include <chrono>
+#include <future>
+#include <windows.h>
+#include <cstdio>
+#include <cstdlib>
+#include <iostream>
+
+/**
+ * Async input code
+ */
+
+/**
+ * Used for async cin stuff
+ */
+std::future<std::string> future;
+bool futureActive = false;
+
+/**
+ * Get std string from cin
+ * @return user input
+ */
+static std::string getCin() {
+    std::string input;
+    std::cin >> input;
+    return input;
+}
+
+/**
+ * Nonblocking cin
+ * @param out[out] user input
+ * @return if data was received
+ */
+bool asyncInput(std::string &out) {
+    if (!futureActive) {
+        future = std::async(getCin);
+        futureActive = true;
+        return false;
+    }
+    if (future.wait_for(std::chrono::seconds(0)) == std::future_status::ready) {
+        out = future.get();
+        futureActive = false;
+        return true;
+    }
+    return false;
+}
 
 
 
@@ -12,11 +59,6 @@
 
 
 #define ARDUINO_WAIT_TIME 2000
-
-#include <windows.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <iostream>
 
 class Serial {
 public:
@@ -36,10 +78,8 @@ public:
     //Close the connection
     ~Serial();
 
-    int Available() const {
-        LPDWORD aaD;
-        LPCOMSTAT aD;
-        return ClearCommError(hSerial, aaD, aD);
+    int Available() {
+        return ClearCommError(this->hSerial, &this->errors, &this->status);
     }
 
     //Read data in a buffer, if nbChar is greater than the
@@ -47,16 +87,6 @@ public:
     //bytes available. The function return -1 when nothing could
     //be read, the number of bytes actually read.
     int ReadData(char *buffer, unsigned int nbChar);
-
-    /**
-     * Generally a non-blocking read function that checks if there is data available before attempting to read
-     * @param buffer
-     * @param nbChar
-     * @return
-     */
-    int ReadNonblock(char *buffer, unsigned int nbChar) {
-        return Available() ? ReadData(buffer, nbChar) : 0;
-    };
 
     //Writes data from a buffer through the Serial connection
     //return true on success.
@@ -186,32 +216,84 @@ bool Serial::IsConnected() {
 }
 
 
+/**
+ * Provides a serial abstraction that is easy to work with
+ *
+ * @class Arduino
+ */
 class Arduino {
-public:
+private:
+    std::string lineBuff;
     static const int m_bufSize = 2048;
     char m_buf[m_bufSize] = "";       // Overkill
     Serial *m_serial;
 public:
-
+    /**
+     * Create and connect to the arduino
+     * @param port com port to connect to (ie "COM35")
+     */
     explicit Arduino(const char *port) {
         std::string portStr = R"(\\.\)" + std::string(port);
         m_serial = new Serial(portStr.c_str());
     }
 
-
-
-    int available() const {
-        return m_serial->Available();
-    }
-
+    /**
+     * Non-blocking read, returns empty string if nothing was available
+     * @return
+     */
     std::string read() {
-        memset(m_buf, 0, m_bufSize);
-        std::cout << m_serial->ReadNonblock(m_buf, m_bufSize - 1) << "\n";
+        memset(&m_buf, '\0', m_bufSize);
+        if (m_serial->Available()) {
+            m_serial->ReadData(m_buf, m_bufSize - 1);
+        }
         return m_buf;
     }
 
+    /**
+     * Send a string to the arduino
+     * @param msg message to send
+     */
     void write(const std::string &msg) const {
         m_serial->WriteData(msg.c_str(), msg.length());
+    }
+
+    /**
+     * If the com port was opened properly
+     * @return
+     */
+    bool connected() const {
+        return m_serial->IsConnected();
+    }
+
+    /**
+     * Reads a line starting with a flag and ending in a newline
+     * @param output[out] buffer to save data
+     * @param startFlag[in] flag to look for
+     * @return if new data was saved in output
+     */
+    bool readLine(std::string &output, const std::string &startFlag = "") {
+        // Read any new data
+        lineBuff += read();
+
+        // Clip off anything before a start delimiter
+        if (!startFlag.empty()) {
+            int flagLoc = lineBuff.find(startFlag);
+            if (flagLoc != std::string::npos) {
+                lineBuff = lineBuff.substr(flagLoc);
+            } else {
+                lineBuff = "";
+                return false;
+            }
+        }
+
+        // Remove a full line from the buffer if there is one
+        int endLoc = lineBuff.find('\n');
+        if (endLoc != std::string::npos) {
+            output = lineBuff.substr(0, endLoc + 1);
+            lineBuff = lineBuff.substr(endLoc + 1);
+            return true;
+        }
+        return false;
     }
 
 };

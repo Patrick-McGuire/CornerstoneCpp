@@ -1,50 +1,30 @@
-#include <stdio.h>
-#include <tchar.h>
-#include "ArduinoInterface.h"    // Library described above
+#include "ArduinoInterface.h"
 #include <string>
 #include <iostream>
 
-// application reads from the specified m_serial port and reports the collected data
-int main(int argc, _TCHAR *argv[]) {
-    Arduino arduino("COM35");
-    std::cout << arduino.m_serial->IsConnected() << "\n";
-    std::string arduinoMessage;
-    while (arduinoMessage != "bruh") {
-        arduinoMessage = arduino.read();
-//        if(arduinoMessage.length() > 0) {
-//            std::cout << arduinoMessage << std::endl;
-//        }
-    }
-    return 0;
 
-//    printf("Welcome to the m_serial test app!\n\n");
-//
-//    Serial* SP = new Serial(R"(\\.\COM35)");    // adjust as needed
-//
-//    if (SP->IsConnected())
-//        printf("We're connected");
-//
-//    char incomingData[256] = "";			// don't forget to pre-allocate memory
-//    //printf("%s\n",incomingData);
-//    int dataLength = 255;
-//    int readResult = 0;
-//
-//    while(SP->IsConnected())
-//    {
-////        LPDWORD aaD;
-////        LPCOMSTAT aD;
-//////        int a = ClearCommError(SP->hSerial, aaD, aD);
-//////        std::cout << a << "\n";
-//
-////        if(ClearCommError(SP->hSerial, aaD, aD) != 0) {
-//            readResult = SP->ReadData(incomingData, dataLength);
-//            // printf("Bytes read: (0 means no data available) %i\n",readResult);
-//            incomingData[readResult] = 0;
-//
-//            printf("%s", incomingData);
-////        }
-//        Sleep(1000);
-//        printf("afds\n");
-//    }
-//    return 0;
+int main() {
+    Arduino arduino("COM35");           // Blocking w/timeout. Use
+
+    if (!arduino.connected()) {               // Check connection
+        exit(0);
+    }
+    std::string userInput;
+    std::string arduinoInput;
+
+    // Run for a while
+    while (userInput != "end") {
+        // If the user enters something, send to arduino
+        if (asyncInput(userInput)) {
+            std::cout << "User entered: " << userInput << std::endl;
+            arduino.write(userInput + "\r\n");
+        }
+
+        // Check for data from the arduino
+        if(arduino.readLine(arduinoInput, " $")) {
+            std::cout << "Data from arduino: " << arduinoInput << std::endl;
+        }
+    }
+
+    return 0;
 }
