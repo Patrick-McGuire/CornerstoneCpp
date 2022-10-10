@@ -2,7 +2,6 @@
 #include <string>
 #include <iostream>
 
-
 int main() {
     Arduino arduino("COM35");           // Blocking w/timeout. Use
 

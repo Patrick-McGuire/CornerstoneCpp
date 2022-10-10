@@ -3,4 +3,5 @@ project(ArduinoSerial)
 
 set(CMAKE_CXX_STANDARD 14)
 
+
 add_executable(ArduinoSerial main.cpp ArduinoInterface.h)
