@@ -20,9 +20,13 @@ int main() {
         }
 
         // Check for data from the arduino
-        if(arduino.readLine(arduinoInput, " $")) {
+        if(arduino.readLine(arduinoInput, "$")) {
             std::cout << "Data from arduino: " << arduinoInput << std::endl;
         }
+
+
+        std::string a;
+        while(!arduino.readLine(a));
     }
 
     return 0;
