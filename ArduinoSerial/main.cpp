@@ -11,9 +11,6 @@ int main() {
     std::string userInput;
     std::string arduinoInput;
 
-    rand();
-
-
     // Run for a while
     while (userInput != "end") {
         // If the user enters something, send to arduino
