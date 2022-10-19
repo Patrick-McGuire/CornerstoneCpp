@@ -11,6 +11,8 @@
 #include <cstdlib>
 #include <iostream>
 
+
+
 /**
  * Async input code
  */
@@ -296,6 +298,16 @@ public:
         return false;
     }
 
+
 };
+
+void waitForInput(Arduino &arduino) {
+    std::string userInput;
+    std::string arduinoInput;
+    while (userInput != "continue" && arduinoInput != "$CONT\r\n") {
+        asyncInput(userInput);
+        arduino.readLine(arduinoInput, "$");
+    }
+}
 
 #endif //ARDUINOSERIAL_ARDUINOINTERFACE_H
