@@ -301,10 +301,10 @@ public:
 
 };
 
-void waitForInput(Arduino &arduino) {
+void waitForInput(Arduino &arduino, const std::string& arduinoMessage) {
     std::string userInput;
     std::string arduinoInput;
-    while (userInput != "continue" && arduinoInput != "$CONT\r\n") {
+    while (userInput != "continue" && arduinoInput != arduinoMessage) {
         asyncInput(userInput);
         arduino.readLine(arduinoInput, "$");
     }
