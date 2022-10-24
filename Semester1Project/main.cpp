@@ -44,16 +44,16 @@ int main() {
         arduino.write("$START\r\n");
     } else {
         std::cout << "Please connect the Arduino" << "\n";
-        exit(0);
+//        exit(0);
     }
 
     // Retrieve the users userName
     string userName;
-    cout << "Please enter your userName. Thank you and enjoy!" << endl;
+    cout << "Please enter your name. Thank you and enjoy!" << endl;
     cin >> userName;
 
     // Puzzle game intro and instructions
-    cout << "Welcome " << userName << " to NASA. Your boss is asking you to submit the Executive Committee's response of launching\n"
+    cout << "Hello " << userName << "! Welcome to NASA. Your boss is asking you to submit the Executive Committee's response of launching\n"
                                       "the Colombia Space Shuttle for it's 28th time after it's regular evaluation. With this word hunt,\n"
                                       "find the shape the words will make (it can be either a square or a hashtag) in order to get\n"
                                       "the log in information and to find their decision. Please submit it as soon as you can!" << endl;
@@ -140,7 +140,7 @@ int main() {
             "piece of wood with a missing piece. It seems that this is the main cause for the whole break up of the \n"
             "shuttle. What could it be? Try to find the missing piece that fits into the hole. " << endl;
 
-    waitForInput(arduino, "$CONT2\r\n");
+//    waitForInput(arduino, "$CONT2\r\n");
 
     cout << "Good job! You found the right piece. What do you think it is? This is a heat plate! It looks\n"
             " like its damaged too... " << endl;
