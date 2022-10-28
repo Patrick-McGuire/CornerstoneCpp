@@ -1,3 +1,17 @@
+/*
+ * Hi! Please run the code to start
+ *
+ * You will be asked to find a piece that fits into the wing.
+ * The piece is located on the front of the model, next to the LED.
+ */
+
+
+
+
+
+
+
+
 #include <iostream>
 #include "ArduinoInterface.h"
 #include <unistd.h> //for pauses/sleep
@@ -107,7 +121,7 @@ int main() {
     cout << "Breaking News! If you look above at the Texas sky, you can see the Colombia Space Shuttle\n "
             "breaking into multiple pieces while re-entry. NASA is still trying to figure out what occurred, but\n"
             "something went terribly wrong." << endl;
-    sleep(6); //waits 6 seconds
+    sleep(4); //waits 6 seconds
     cout << "The 7 astronauts on board have passed away" << endl;
 
     sleep(2);
@@ -122,7 +136,7 @@ int main() {
             "Put the correct piece into the socket on the back of the wing" << endl;
 
     waitForInput(arduino, "$CONT2\r\n");
-
+    cout << "\n\n\n";
     cout << "Good job! You found the right piece. This is a heat plate! Losing heat tiles has \n"
             "been a big issue in NASA for many years, with 2,000 heat tiles being lost while on an airplane for Colombia,\n"
             "along with 15 tiles being lost during blast off for the shuttle alone." << endl;
