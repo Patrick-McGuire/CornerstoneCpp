@@ -304,8 +304,13 @@ public:
 void waitForInput(Arduino &arduino, const std::string& arduinoMessage) {
     std::string userInput;
     std::string arduinoInput;
+    double start = time(0);
     while (userInput != "y" && arduinoInput != arduinoMessage) {
 //        asyncInput(userInput);
+        if(time(0) - start > .5) {
+            start = time(0);
+            arduino.write("$RPT\r\n");
+        }
         arduino.readLine(arduinoInput, "$");
     }
 }
