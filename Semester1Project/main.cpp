@@ -29,18 +29,33 @@ void lower(string &lw) {
  * Blocking
  * @param desiredInput desired input
  */
-void waitForInput(const string &desiredInput) {
+void waitForInput(const string &desiredInput, const string &hint) {
     string inputStr;
     cout << "Please enter the answer." << endl;
     cin >> inputStr;
     lower(inputStr);
     if (inputStr == desiredInput) {
         cout << "Good Job!" << endl;
+        return;
+    }
+    if(hint != "none") {
+        cout << "If you need a hint enter \"hint\"" << endl;
     }
     while (inputStr != desiredInput) {
         cout << "Wrong! Try again." << endl;
+        skipWrong:
         cin >> inputStr;
+
+        if(inputStr == "hint" && hint != "none") {
+            cout << hint << endl;
+            goto skipWrong;
+        }
+
     }
+}
+
+void waitForInput(const string &desiredInput) {
+    waitForInput(desiredInput, "none");
 }
 
 int main() {
@@ -67,37 +82,33 @@ int main() {
 
     //// Puzzle game
     // Question 1
-    cout << "At night, you can see many _____.\n"
-            "a) moons\n"
-            "b) voids\n"
-            "c) stars\n"
-            "d) gases" << endl;
-    waitForInput("c");
+    cout << "At night, you can see many _____.\n" << endl;
+    waitForInput("stars",  "It could be any of the following:\nmoons\n"
+                       "voids\n"
+                       "stars\n"
+                       "gases");
 
     // Question 2
-    cout << "Saturn's moon, _____, is bigger than Earth's moon.\n"
-            "a) titan\n"
-            "b) thebe\n"
-            "c) ariel\n"
-            "d) naiad" << endl;
-    waitForInput("a");
+    cout << "Saturn's moon, _____, is bigger than Earth's moon.\n" << endl;
+    waitForInput("titan", "It could be any of the following:\ntitan\n"
+                      "thebe\n"
+                      "ariel\n"
+                      "naiad");
 
     // Question 3
-    cout << "Dr. Alan _____ is the principal investigator on New Horizons, the first-ever mission to Pluto.\n"
-            "a) evans\n"
-            "b) olson\n"
-            "c) stone\n"
-            "d) stern" << endl;
-    waitForInput("d");
+    cout << "Dr. Alan _____ is the principal investigator on New Horizons, the first-ever mission to Pluto.\n" << endl;
+    waitForInput("stern", "It could be any of the following:\nevans\n"
+                          "olson\n"
+                          "stone\n"
+                          "stern" );
 
     // Question 4
     cout << "A _____-Neptunian object, is any minor planet in the Solar System that orbits the Sun at a greater average \n"
-            "distance than Neptune.\n"
-            "a) trans\n"
-            "b) orbit\n"
-            "c) array\n"
-            "d) close" << endl;
-    waitForInput("a");
+            "distance than Neptune.\n" << endl;
+    waitForInput("trans", "It could be any of the following:\ntrans\n"
+                          "orbit\n"
+                          "array\n"
+                          "close");
 
     // Final part of game
     cout << "" << endl;
