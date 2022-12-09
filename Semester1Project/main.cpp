@@ -185,8 +185,7 @@ int main() {
     cout << "You need to locate what piece hit the heat tile and caused it to damage it, eventually causing it to fall off. There is \n"
             "a loose object on the space shuttle that caused the damaged heat tile. Find that loose object and pull it." << endl;
 
-//    std::cout << "Continue after you have found the loose object" << std::endl;
-//    waitToContinue();
+
     waitForInput(arduino, "$CONT3\r\n");
 
     cout << "Good Job!\n"

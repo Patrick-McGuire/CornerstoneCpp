@@ -16,4 +16,6 @@ template <class Var>
 using ConfigVariable = FlagVariable<Var, uint16_t>;
 
 
+typedef ConfigVariable<int> IntVar;
+
 #endif //FLAGVARIABLE_CONFIGVARIABLE_H

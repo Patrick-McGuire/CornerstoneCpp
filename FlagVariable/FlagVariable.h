@@ -5,14 +5,14 @@
 template <class Var, class FlagStorage>
 class FlagVariable {
 public:
-    FlagVariable() = default;
+    static void create() {
 
-    explicit FlagVariable(Var var) {
-        variable = var;
     }
 
-    explicit FlagVariable(Var *var) {
-        variable = *var;
+    FlagVariable() = default;
+
+    explicit FlagVariable(const Var &var) {
+        variable = var;
     }
 
     /**
