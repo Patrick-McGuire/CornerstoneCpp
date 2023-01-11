@@ -19,12 +19,12 @@ int main() {
     std::string name;
     // Get a valid input
     while (!(b == 'l' || b == 's')) {
-        std::cout << "enter l or s to generate name long or short word\n";
+        std::cout << "enter l or s to generate a long or short name\n";
         std::cin >> b;
     }
     // Populate the string with random charters
     for (int i = 0; i < (b == 'l' ? 6 : (b == 's' ? 3 : 0)); i++)
-        name += (char) (rand() % 26 + 'a');     // Random ascii charter between a and z
+        name += (char) (rand() % 26 + 'a');     // Random ascii character between a and z
     // Print out the name, and print out the modified name to ensure presence of a vowel
     std::cout << "original: " << name << std::endl << "modified: " << modify(name) << std::endl;
     return 0;
