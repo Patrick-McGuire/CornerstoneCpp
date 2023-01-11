@@ -6,7 +6,7 @@ std::string &modify(std::string &name);     // Not really necessary
 std::string &modify(std::string &name) {
     // Check if there is a vowel in the string. This is kinda fancy, so trust me, it works!
     if (std::find_if(name.begin(), name.end(), [](char c) { return (0x2208222 >> (c & 0x1f)) & 0x1; }) == name.end())
-        // Populate a random vowel if no vowels are present in the code
+        // Populate a random vowel if no vowels are present in the name
         name[rand() % name.size()] = "aeiouy"[rand() % 6];
     return name;
 }
